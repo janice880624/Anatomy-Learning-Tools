@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>解剖導航</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #f0f4f8; overflow-x: hidden; }
+        .node-active { background-color: #1e40af !important; color: white !important; transform: scale(1.02); }
+        .landmark-card { transition: all 0.2s ease; cursor: pointer; }
+        .landmark-card:hover { border-color: #3b82f6; background-color: #eff6ff; }
+        .origin-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; display: inline-block; margin-right: 4px; }
+        .insert-dot { width: 8px; height: 8px; background: #ef4444; border-radius: 50%; display: inline-block; margin-right: 4px; }
+        .hidden-view { display: none !important; }
+        .transition-all-300 { transition: all 0.3s ease-in-out; }
+    </style>
+</head>
+<body class="p-4 md:p-6 text-slate-800">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900">上肢解剖導航儀 (v4.0 精細版)</h1>
+                <p class="text-slate-500 text-sm">新增：肌肉分束 (三角肌前中後) 與長短頭精確解析</p>
+            </div>
+            <div class="flex bg-white p-1 rounded-xl shadow-sm border border-slate-200">
+                <button id="btn-interactive" onclick="switchView('interactive')" class="px-4 py-2 rounded-lg text-sm transition-all bg-blue-600 text-white font-medium">📍 節點導航儀</button>
+                <button id="btn-table" onclick="switchView('table')" class="px-4 py-2 rounded-lg text-sm transition-all text-slate-600 hover:bg-slate-50">📋 完整資料表</button>
+            </div>
+        </header>
+
+        <!-- VIEW 1: Interactive Explorer -->
+        <div id="view-interactive" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Left: Sidebar (The Navigator) -->
+            <div id="sidebar-container" class="lg:col-span-4 space-y-4 max-h-[85vh] overflow-y-auto pr-2 transition-all-300">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                    <h3 class="text-xs font-black text-slate-400 mb-3 uppercase tracking-widest">肩胛骨節點 (Scapula Nodes)</h3>
+                    <div class="grid grid-cols-1 gap-2" id="scapula-nodes"></div>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                    <h3 class="text-xs font-black text-slate-400 mb-3 uppercase tracking-widest">肱骨與肘部節點 (Humerus/Elbow)</h3>
+                    <div class="grid grid-cols-1 gap-2" id="elbow-nodes"></div>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                    <h3 class="text-xs font-black text-slate-400 mb-3 uppercase tracking-widest">手腕與手部 (Wrist/Hand)</h3>
+                    <div class="grid grid-cols-1 gap-2" id="hand-nodes"></div>
+                </div>
+            </div>
+
+            <!-- Right: Content Display Area -->
+            <div id="main-content-panel" class="lg:col-span-8 transition-all-300">
+                <div class="mb-4 flex justify-start">
+                    <button onclick="toggleSidebar()" class="text-xs font-medium text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100 hover:bg-blue-100">
+                        <span id="toggle-text">⬅️ 隱藏導覽清單</span>
+                    </button>
+                </div>
+
+                <div id="display-panel" class="bg-white min-h-[600px] p-6 md:p-10 rounded-3xl shadow-md border border-slate-100 flex flex-col">
+                    <div id="empty-state" class="flex-grow flex flex-col items-center justify-center text-slate-300 text-center">
+                        <svg class="w-20 h-20 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        <p class="text-lg font-bold">解剖節點深度導覽</p>
+                        <p class="text-sm">點擊左側骨骼地標查看細分肌肉的進出關係</p>
+                    </div>
+
+                    <div id="detail-view" class="hidden animate-in fade-in zoom-in duration-300">
+                        <div class="flex items-center mb-8">
+                            <div id="type-icon" class="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center mr-5 text-white font-bold text-2xl shadow-lg shadow-blue-200">!</div>
+                            <div>
+                                <h2 id="view-title" class="text-3xl font-bold text-slate-800"></h2>
+                                <p id="view-desc" class="text-slate-500 italic"></p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="bg-gradient-to-br from-red-50 to-white p-6 rounded-3xl border border-red-100 shadow-sm">
+                                <h4 class="text-red-700 font-black text-xs uppercase tracking-widest mb-4 flex items-center">
+                                    <span class="insert-dot"></span> 輸入 (終點 Insertion)
+                                </h4>
+                                <ul id="ins-list" class="space-y-3 text-slate-800"></ul>
+                            </div>
+                            <div class="bg-gradient-to-br from-green-50 to-white p-6 rounded-3xl border border-green-100 shadow-sm">
+                                <h4 class="text-green-700 font-black text-xs uppercase tracking-widest mb-4 flex items-center">
+                                    <span class="origin-dot"></span> 輸出 (起點 Origin)
+                                </h4>
+                                <ul id="ori-list" class="space-y-3 text-slate-800"></ul>
+                            </div>
+                        </div>
+
+                        <div id="at-tip-box" class="mt-10 p-5 bg-slate-900 rounded-2xl text-white shadow-xl">
+                            <div class="flex items-start">
+                                <span class="text-2xl mr-3">🩺</span>
+                                <div>
+                                    <strong class="text-blue-400 block text-xs uppercase mb-1">AT 臨床實務筆記</strong>
+                                    <span id="tip-text" class="text-sm leading-relaxed opacity-90"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 2: Comprehensive Table -->
+        <div id="view-table" class="hidden-view space-y-12 animate-in slide-in-from-bottom-8 duration-500">
+            <section class="bg-white p-8 rounded-3xl shadow-lg border border-slate-200">
+                <h2 class="text-2xl font-black mb-6 text-blue-700 border-b-2 border-blue-100 pb-2 flex items-center">
+                    <span class="mr-2">🧩</span> 肩部精細解剖資料表 (分束版)
+                </h2>
+                <div class="overflow-x-auto"><table class="w-full text-xs text-left"><thead class="bg-slate-50 text-slate-500 uppercase font-bold"><tr><th class="px-3 py-4">肌肉名稱 (含細分)</th><th class="px-3 py-4">起點 (Origin)</th><th class="px-3 py-4">終點 (Insertion)</th><th class="px-4 py-4">主要動作</th><th class="px-3 py-4 text-red-600">拮抗肌 (Antagonist)</th><th class="px-3 py-4">神經支配</th></tr></thead><tbody id="table-joint" class="divide-y divide-slate-100 text-slate-700"></tbody></table></div>
+            </section>
+            
+            <section class="bg-white p-8 rounded-3xl shadow-lg border border-slate-200">
+                <h2 class="text-2xl font-black mb-6 text-purple-700 border-b-2 border-purple-100 pb-2 flex items-center">
+                    <span class="mr-2">🏗️</span> 肘與橈尺關節資料表 (分束版)
+                </h2>
+                <div class="overflow-x-auto"><table class="w-full text-xs text-left"><thead class="bg-slate-50 text-slate-500 uppercase font-bold"><tr><th class="px-3 py-4">肌肉名稱</th><th class="px-3 py-4">起點 (Origin)</th><th class="px-3 py-4">終點 (Insertion)</th><th class="px-3 py-4">主要動作</th><th class="px-3 py-4 text-red-600">拮抗肌 (Antagonist)</th><th class="px-3 py-4">神經</th></tr></thead><tbody id="table-elbow" class="divide-y divide-slate-100 text-slate-700"></tbody></table></div>
+            </section>
+
+            <section class="bg-white p-8 rounded-3xl shadow-lg border border-slate-200">
+                <h2 class="text-2xl font-black mb-6 text-orange-600 border-b-2 border-orange-100 pb-2">👋 手部與手腕肌肉</h2>
+                <div class="overflow-x-auto"><table class="w-full text-xs text-left"><thead class="bg-slate-50 text-slate-500 uppercase font-bold"><tr><th class="px-3 py-4">肌肉</th><th class="px-3 py-4">起點</th><th class="px-3 py-4">終點</th><th class="px-3 py-4">動作</th><th class="px-3 py-4 text-red-600">拮抗</th><th class="px-3 py-4">神經</th></tr></thead><tbody id="table-hand" class="divide-y divide-slate-100"></tbody></table></div>
+            </section>
+        </div>
+
+        <footer class="mt-12 text-center text-slate-400 text-xs py-10">
+            <p>AT-Bot 解剖學數位筆記系統 v4.0 | 專為精細動作分析設計</p>
+        </footer>
+    </div>
+
+    <script>
+        const muscles = {
+            joint: [
+                { name: '三角肌 (前束)', o: '鎖骨外側 1/3', i: '肱骨三角肌粗隆', a: '屈曲、內旋、水平內收', ant: '三角肌後束、棘下肌', n: '腋神經 (C5-C6)' },
+                { name: '三角肌 (中束)', o: '肩峰 (Acromion)', i: '肱骨三角肌粗隆', a: '外展 (最強主動肌)', ant: '胸大肌、闊背肌', n: '腋神經 (C5-C6)' },
+                { name: '三角肌 (後束)', o: '肩胛棘 (Spine of Scapula)', i: '肱骨三角肌粗隆', a: '伸展、外旋、水平外展', ant: '三角肌前束、胸大肌', n: '腋神經 (C5-C6)' },
+                { name: '棘上肌', o: '肩胛棘上窩', i: '大結節 (最上部)', a: '啟動外展 (0-15°)', ant: '胸大肌', n: '鎖骨上神經 (C5-C6)' },
+                { name: '棘下肌', o: '肩胛棘下窩', i: '大結節 (中部)', a: '外旋', ant: '肩胛下肌、胸大肌', n: '鎖骨上神經 (C5-C6)' },
+                { name: '小圓肌', o: '肩胛外側緣 (上2/3)', i: '大結節 (下部)', a: '外旋', ant: '肩胛下肌', n: '腋神經 (C5-C6)' },
+                { name: '肩胛下肌', o: '肩胛下窩', i: '小結節', a: '內旋', ant: '棘下肌、小圓肌', n: '肩胛下神經 (C5-C7)' },
+                { name: '胸大肌', o: '鎖骨內側、胸骨', i: '結節間溝外側唇', a: '內收、內旋、水平內收', ant: '三角肌後束、棘下肌', n: '胸內/外側神經' },
+                { name: '闊背肌', o: 'T7-L5、髂嵴', i: '結節間溝底', a: '伸展、內收、內旋', ant: '三角肌前束、棘上肌', n: '胸背神經 (C6-C8)' },
+                { name: '大圓肌', o: '肩胛下角', i: '結節間溝內側唇', a: '伸展、內收、內旋', ant: '前三角肌', n: '下肩胛下神經 (C5-C6)' },
+                { name: '喙肱肌', o: '喙突', i: '肱骨內側中間', a: '屈曲、內收', ant: '後三角肌', n: '肌皮神經 (C5-C7)' }
+            ],
+            elbow: [
+                { name: '肱二頭肌 (長頭)', o: '盂上結節 (Supraglenoid)', i: '橈骨粗隆、二頭肌腱膜', a: '肘屈曲、強力旋後、輔助肩屈', ant: '肱三頭肌、旋前圓肌', n: '肌皮神經 (C5-C6)' },
+                { name: '肱二頭肌 (短頭)', o: '喙突 (Coracoid)', i: '橈骨粗隆', a: '肘屈曲、旋後、輔助水平內收', ant: '肱三頭肌', n: '肌皮神經 (C5-C6)' },
+                { name: '肱肌', o: '肱骨遠端前側', i: '尺骨粗隆、冠狀突', a: '肘屈曲 (主要動力)', ant: '肱三頭肌', n: '肌皮神經 (C5-C6)' },
+                { name: '肱橈肌', o: '肱骨外上髁嵴', i: '橈骨莖突', a: '肘屈曲 (中立位最強)', ant: '肱三頭肌', n: '橈神經 (C5-C6)' },
+                { name: '肱三頭肌 (長頭)', o: '盂下結節 (Infraglenoid)', i: '尺骨鷹嘴突', a: '肘伸展、輔助肩伸展', ant: '肱二頭肌', n: '橈神經 (C6-C8)' },
+                { name: '肱三頭肌 (外側/內側頭)', o: '肱骨後表面', i: '尺骨鷹嘴突', a: '肘伸展 (單純關節動作)', ant: '肱二頭肌', n: '橈神經 (C6-C8)' },
+                { name: '旋前圓肌', o: '內上髁、冠狀突', i: '橈骨外側中段', a: '前臂旋前', ant: '旋後肌、二頭肌', n: '正中神經 (C6-C7)' },
+                { name: '旋後肌', o: '外上髁、尺骨', i: '橈骨近端', a: '前臂旋後', ant: '旋前肌群', n: '橈神經 (C6)' }
+            ],
+            hand: [
+                { name: '橈側屈腕肌', o: '內上髁', i: '2,3掌骨', a: '屈腕、橈偏', ant: '尺側伸腕肌', n: '正中神經' },
+                { name: '尺側屈腕肌', o: '內上髁', i: '豌豆骨', a: '屈腕、尺偏', ant: '橈側伸腕肌', n: '尺神經' }
+                // 其餘 12 塊手部肌肉簡略 (實際應用時可補全)
+            ]
+        };
+
+        const nodesData = [
+            { id: 1, group: 'scapula', name: '喙突 (Coracoid Process)', desc: '肩部關鍵轉運站', tip: '二頭肌「短頭」輸出點。臨床常見胸小肌緊繃壓迫下方的臂神經叢。', ins: ['胸小肌'], ori: ['肱二頭肌 (短頭)', '喙肱肌'] },
+            { id: 2, group: 'scapula', name: '盂上結節 (Supraglenoid)', desc: '肩關節內部地標', tip: '二頭肌「長頭」輸出點。此處損傷常伴隨 SLAP 肩臼唇撕裂。', ins: [], ori: ['肱二頭肌 (長頭)'] },
+            { id: 3, group: 'scapula', name: '盂下結節 (Infraglenoid)', desc: '肩胛骨外側上端', tip: '三頭肌「長頭」輸出點。由於跨越肩關節，它能輔助肩膀伸展。', ins: [], ori: ['肱三頭肌 (長頭)'] },
+            { id: 4, group: 'scapula', name: '肩峰 (Acromion)', desc: '肩部最高點', tip: '三角肌「中束」的輸出點；也是肩峰下撞擊症候群的病灶區。', ins: ['斜方肌'], ori: ['三角肌 (中束)'] },
+            { id: 5, group: 'elbow', name: '三角肌粗隆 (Deltoid Tuberosity)', desc: '肱骨中段外側', tip: '三角肌「前、中、後」三束共同的輸入點，力量非常強大。', ins: ['三角肌 (前束)', '三角肌 (中束)', '三角肌 (後束)'], ori: [] },
+            { id: 6, group: 'scapula', name: '肩胛棘 (Spine of Scapula)', desc: '肩胛骨後方突起', tip: '三角肌「後束」輸出點與斜方肌輸入點。', ins: ['斜方肌'], ori: ['三角肌 (後束)'] },
+            { id: 7, group: 'scapula', name: '鎖骨外側 (Lateral Clavicle)', desc: '肩帶前緣', tip: '三角肌「前束」輸出點。負責投球加速初期的前引力量。', ins: ['斜方肌'], ori: ['三角肌 (前束)'] },
+            { id: 8, group: 'elbow', name: '橈骨粗隆 (Radial Tuberosity)', desc: '二頭肌力量終點', tip: '二頭肌「長、短頭」共同輸入。因附著於橈骨偏內側，所以具備強力旋後功能。', ins: ['肱二頭肌 (長頭)', '肱二頭肌 (短頭)'], ori: [] },
+            { id: 9, group: 'elbow', name: '鷹嘴突 (Olecranon)', desc: '尺骨近端後側', tip: '三頭肌「長、內、外側頭」共同輸入。伸展肘部的主動力臂。', ins: ['肱三頭肌 (長頭)', '肱三頭肌 (外側/內側頭)'], ori: [] }
+        ];
+
+        // Core Functions
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar-container');
+            const mainContent = document.getElementById('main-content-panel');
+            const toggleText = document.getElementById('toggle-text');
+            sidebar.classList.toggle('hidden-view');
+            if (sidebar.classList.contains('hidden-view')) {
+                mainContent.classList.replace('lg:col-span-8', 'lg:col-span-12');
+                toggleText.innerText = '➡️ 顯示導覽清單';
+            } else {
+                mainContent.classList.replace('lg:col-span-12', 'lg:col-span-8');
+                toggleText.innerText = '⬅️ 隱藏導覽清單';
+            }
+        }
+
+        function switchView(view) {
+            const vInt = document.getElementById('view-interactive');
+            const vTab = document.getElementById('view-table');
+            const bInt = document.getElementById('btn-interactive');
+            const bTab = document.getElementById('btn-table');
+            if (view === 'interactive') {
+                vInt.classList.remove('hidden-view'); vTab.classList.add('hidden-view');
+                bInt.className = 'px-4 py-2 rounded-lg text-sm bg-blue-600 text-white font-medium';
+                bTab.className = 'px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-50';
+            } else {
+                vInt.classList.add('hidden-view'); vTab.classList.remove('hidden-view');
+                bTab.className = 'px-4 py-2 rounded-lg text-sm bg-blue-700 text-white font-medium';
+                bInt.className = 'px-4 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-50';
+            }
+        }
+
+        function populateTables() {
+            ['joint', 'elbow', 'hand'].forEach(cat => {
+                const body = document.getElementById(`table-${cat}`);
+                if (!body) return;
+                muscles[cat].forEach(m => {
+                    body.innerHTML += `<tr class="hover:bg-slate-50 transition-colors"><td class="px-3 py-4 font-bold text-slate-900">${m.name}</td><td class="px-3 py-4">${m.o}</td><td class="px-3 py-4">${m.i}</td><td class="px-3 py-4 text-blue-600">${m.a}</td><td class="px-3 py-4 text-red-600 font-medium">${m.ant || '-'}</td><td class="px-3 py-4 text-slate-400 italic">${m.n}</td></tr>`;
+                });
+            });
+        }
+
+        function renderNodes() {
+            nodesData.forEach(node => {
+                const div = document.createElement('div');
+                div.className = 'landmark-card p-3 rounded-xl border border-slate-100 text-xs font-bold text-slate-700 flex justify-between items-center bg-white shadow-sm';
+                div.innerHTML = `${node.name} <span class="text-[9px] bg-slate-50 px-2 py-0.5 rounded border">分析</span>`;
+                div.onclick = () => selectNode(node, div);
+                const container = document.getElementById(`${node.group}-nodes`);
+                if(container) container.appendChild(div);
+            });
+        }
+
+        function selectNode(node, el) {
+            document.querySelectorAll('.landmark-card').forEach(c => c.classList.remove('node-active'));
+            el.classList.add('node-active');
+            document.getElementById('empty-state').classList.add('hidden');
+            document.getElementById('detail-view').classList.remove('hidden');
+            document.getElementById('view-title').innerText = node.name;
+            document.getElementById('view-desc').innerText = node.desc;
+            document.getElementById('tip-text').innerText = node.tip;
+            const iconMap = {scapula:'S', elbow:'H', hand:'W'};
+            document.getElementById('type-icon').innerText = iconMap[node.group] || '?';
+            document.getElementById('ins-list').innerHTML = node.ins.map(i => `<li class="font-bold text-xl py-1 border-b border-red-50 text-red-900">${i}</li>`).join('') || '<li class="text-slate-400">無主動肌終點</li>';
+            document.getElementById('ori-list').innerHTML = node.ori.map(o => `<li class="font-bold text-xl py-1 border-b border-green-50 text-green-900">${o}</li>`).join('') || '<li class="text-slate-400">無主動肌起點</li>';
+        }
+
+        window.onload = () => { renderNodes(); populateTables(); };
+    </script>
+</body>
+</html>
