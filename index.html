@@ -17,7 +17,6 @@
         .scroll-custom::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .training-category-header { font-size: 12px; font-weight: 900; letter-spacing: 0.1em; color: #64748b; margin-bottom: 12px; display: block; border-left: 4px solid #1e40af; padding-left: 10px; }
         
-        /* Modal Styles */
         .modal-overlay { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(6px); transition: all 0.3s ease; }
         .clickable-muscle { cursor: pointer; transition: color 0.2s; }
         .clickable-muscle:hover { color: #2563eb; text-decoration: underline; }
@@ -29,8 +28,9 @@
         <header class="mb-8 flex flex-col md:flex-row justify-between items-center gap-4 border-b-2 border-slate-200 pb-6">
             <div>
                 <h1 class="text-3xl font-black text-slate-900 tracking-tight flex items-center">
-                    解剖導航 <span class="ml-3 px-3 py-1 bg-blue-600 text-white text-base rounded-lg font-bold shadow-lg">v6.9</span>
+                    解剖導航 <span class="ml-3 px-3 py-1 bg-blue-600 text-white text-base rounded-lg font-bold shadow-lg">v7.2</span>
                 </h1>
+                <p class="text-slate-500 text-sm font-bold uppercase tracking-widest mt-1">Sport 臨床動作實務版 - 含動作照片影像</p>
             </div>
             <nav class="flex bg-white p-1.5 rounded-2xl shadow-sm border border-slate-200 space-x-1">
                 <button id="btn-interactive" onclick="switchView('interactive')" class="px-6 py-2 rounded-xl text-sm transition-all text-slate-600 hover:bg-slate-100 font-bold">📍 節點導航</button>
@@ -39,7 +39,7 @@
             </nav>
         </header>
 
-        <!-- VIEW: Interactive Nodes (Default Home) -->
+        <!-- VIEW: Interactive Nodes -->
         <div id="view-interactive" class="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-in fade-in duration-500">
             <div class="lg:col-span-4 space-y-4 max-h-[85vh] overflow-y-auto pr-2 scroll-custom">
                 <div class="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm">
@@ -54,7 +54,7 @@
             <div class="lg:col-span-8">
                 <div id="node-display-panel" class="bg-white min-h-[650px] p-10 rounded-[3rem] shadow-xl border border-slate-100 flex flex-col">
                     <div id="node-empty-state" class="flex-grow flex flex-col items-center justify-center text-slate-300 text-center">
-                        <p class="text-xl font-black text-slate-400 tracking-tight">請選擇左側解剖節點以查看詳情</p>
+                        <p class="text-xl font-black text-slate-400 tracking-tight">選擇左側解剖節點以查看詳情</p>
                     </div>
                     <div id="node-detail-view" class="hidden animate-in zoom-in duration-300">
                         <h2 id="node-view-title" class="text-4xl font-black text-slate-900 mb-2 tracking-tighter"></h2>
@@ -82,33 +82,39 @@
         <div id="view-training" class="hidden-view grid grid-cols-1 lg:grid-cols-12 gap-8 animate-in fade-in duration-500">
             <div class="lg:col-span-7 space-y-10 max-h-[80vh] overflow-y-auto pr-4 scroll-custom">
                 <section>
-                    <span class="training-category-header">肩帶穩定與肩胛控制</span>
+                    <span class="training-category-header">肩帶與肩胛骨控制</span>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4" id="boxes-girdle"></div>
                 </section>
                 <section>
-                    <span class="training-category-header border-indigo-500 text-indigo-600">肩關節與旋轉肌袖強化</span>
+                    <span class="training-category-header border-indigo-500 text-indigo-600">肩關節與轉袖穩定</span>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4" id="boxes-joint"></div>
                 </section>
                 <section>
-                    <span class="training-category-header border-orange-500 text-orange-600">肘、腕、指部與動力鏈</span>
+                    <span class="training-category-header border-orange-500 text-orange-600">肘、腕與前臂強化</span>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4" id="boxes-elbow-hand"></div>
                 </section>
             </div>
             <div class="lg:col-span-5">
                 <div id="training-detail-panel" class="bg-white min-h-[600px] p-10 rounded-[3rem] shadow-2xl border border-slate-100 flex flex-col sticky top-4">
                     <div id="training-empty-state" class="flex-grow flex flex-col items-center justify-center text-slate-300 text-center">
-                        <p class="text-xl font-black">請點選左側訓練動作方塊</p>
+                        <p class="text-xl font-black">點選左側動作查看對應肌肉</p>
                     </div>
                     <div id="training-detail-view" class="hidden animate-in slide-in-from-right-4">
-                        <h2 id="training-view-title" class="text-5xl font-black text-slate-900 tracking-tighter mb-6"></h2>
+                        <!-- Image Container (Updated for actual image rendering) -->
+                        <div id="training-diagram" class="mb-8 overflow-hidden rounded-[2rem] bg-slate-50 border-2 border-dashed border-slate-200 h-64 flex flex-col items-center justify-center text-slate-400">
+                            <!-- JS will inject img or placeholder here -->
+                        </div>
+
+                        <h2 id="training-view-title" class="text-3xl font-black text-slate-900 tracking-tighter mb-6"></h2>
+                        
                         <div class="space-y-8">
-                            <div class="bg-slate-50 p-8 rounded-[2rem] border border-slate-100 shadow-inner">
-                                <h4 class="text-slate-500 font-black text-xs mb-4 uppercase tracking-widest">誘發肌肉 (點擊看小卡)</h4>
+                            <div class="bg-blue-50 p-8 rounded-[2rem] border border-blue-100">
+                                <h4 class="text-blue-700 font-black text-xs mb-4 uppercase tracking-widest">目標誘發肌肉</h4>
                                 <div id="training-target-list" class="flex flex-wrap gap-2"></div>
                             </div>
                             <div class="p-8 bg-slate-900 rounded-[2.5rem] text-white shadow-2xl">
-                                <strong class="text-emerald-400 block text-xs mb-3 uppercase tracking-widest">臨床實務建議</strong>
-                                <p id="training-view-tip" class="text-sm leading-relaxed opacity-90 font-medium"></p>
+                                <strong class="text-emerald-400 block text-xs mb-3 uppercase tracking-widest font-black">Sport 實務筆記</strong>
+                                <p id="training-view-tip" class="text-sm leading-relaxed opacity-90 font-medium italic"></p>
                             </div>
                         </div>
                     </div>
@@ -128,7 +134,7 @@
                 <div class="bg-slate-900 p-8 text-white">
                     <div class="flex justify-between items-start">
                         <div>
-                            <h3 id="modal-muscle-name" class="text-4xl font-black tracking-tight tracking-tight"></h3>
+                            <h3 id="modal-muscle-name" class="text-4xl font-black tracking-tight"></h3>
                             <p id="modal-muscle-en" class="text-slate-400 italic mt-1 font-medium"></p>
                         </div>
                         <button onclick="closeMuscleModal()" class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-all">
@@ -142,7 +148,7 @@
                         <div><strong class="text-slate-400 uppercase text-[10px] block mb-1 font-black">終點 (I)</strong><p id="modal-i" class="font-bold text-slate-800 text-sm"></p></div>
                     </div>
                     <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100">
-                        <span class="text-[10px] font-black text-blue-600 uppercase block mb-1">神經支配</span>
+                        <span class="text-[10px] font-black text-blue-600 uppercase block mb-1 font-black">神經支配</span>
                         <p id="modal-nv" class="text-base font-black text-slate-900"></p>
                     </div>
                     <div><span class="text-[10px] font-black text-emerald-600 uppercase block mb-1 font-black">主要動作</span><p id="modal-a" class="font-medium text-slate-700 text-sm leading-relaxed"></p></div>
@@ -242,14 +248,24 @@
         ];
 
         const trainingData = [
-            { cat: 'girdle', name: 'Push-up Plus', targets: ['前鋸肌'], tip: '修正「翼狀肩胛」的首選。在撐起後額外推動肩胛前突。' },
-            { cat: 'girdle', name: 'Prone Y-Raise', targets: ['斜方肌 (下束)'], tip: '強化下斜方肌穩定肩胛，預防肩夾擠與代償。' },
-            { cat: 'girdle', name: 'Prone T-Raise', targets: ['斜方肌 (中束)', '菱形肌'], tip: '改善圓肩，強化肩胛骨內收(後縮)肌群。' },
-            { cat: 'joint', name: 'Full Can Exercise', targets: ['棘上肌'], tip: '外展 30° 內訓練棘上肌，拇指朝上減少空間壓迫。' },
-            { cat: 'joint', name: 'Side-lying ER', targets: ['棘下肌', '小圓肌'], tip: '側臥外旋。維持肱骨頭於關節窩中心。' },
-            { cat: 'joint', name: 'Band Internal Rotation', targets: ['肩胛下肌'], tip: '前側旋轉肌袖穩定，對抗外旋代償。' },
-            { cat: 'elbow-hand', name: 'Hammer Curls', targets: ['肱肌', '肱橈肌'], tip: '中立位彎舉更有效誘發「工作馬」肱肌。' },
-            { cat: 'elbow-hand', name: 'Eccentric Wrist Ext.', targets: ['伸腕肌群'], tip: '針對「網球肘」的離心復健治療。' }
+            { cat: 'girdle', name: '聳肩 (Shrugs)', targets: ['斜方肌 (上束)'], tip: '專門針對斜方肌上束。注意維持頸部中立，避免過度聳向耳側。', img: 'img/Shrugs.png' },
+            { cat: 'girdle', name: '俯臥划船 (Prone Row)', targets: ['斜方肌 (中束)', '斜方肌 (下束)', '菱形肌'], tip: '強化肩胛骨內收與下壓。對修正圓肩非常有幫助。', img: 'img/ProneRow.png' },
+            { cat: 'girdle', name: '下降撐體 (Dips)', targets: ['胸小肌', '鎖骨下肌'], tip: '在雙槓上執行下降動作，主要徵召肩帶下壓肌群。', img: 'img/Dips.png' },
+            { cat: 'girdle', name: '仰臥推舉 (Bench Press)', targets: ['前鋸肌', '胸大肌 (上)', '胸大肌 (下)', '喙肱肌'], tip: '多關節推舉。胸大肌是主力，前鋸肌在推到底時提供肩胛穩定。', img: 'img/BenchPress.png' },
+            { cat: 'girdle', name: '伏地挺身 (Push-up)', targets: ['前鋸肌', '鎖骨下肌', '肱三頭肌', '肘肌'], tip: '功能性閉鎖鏈動作。強化前側肩帶穩定與後側伸肘肌群。', img: 'img/Pushup.png' },
+            { cat: 'joint', name: '側舉啞鈴 (Lat Raise)', targets: ['三角肌 (前束)', '三角肌 (中束)', '三角肌 (後束)'], tip: '孤立訓練三角肌。透過不同的外展角度可調整各分束的受力。', img: 'img/LatRaise.png' },
+            { cat: 'joint', name: '過頭側拉 (Lat Pulldown)', targets: ['闊背肌'], tip: '廣泛訓練背部，專注於闊背肌的下拉力矩。', img: 'img/LatPulldown.png' },
+            { cat: 'joint', name: '側拉爬繩 (Rope Pull)', targets: ['大圓肌', '肩胛下肌', '喙肱肌', '肱二頭肌 (長頭)', '肱橈肌'], tip: '高強度的抓拉動作。徵召旋轉肌袖與前臂強大的拉力鏈。', img: 'img/RopePull.png' },
+            { cat: 'joint', name: '瓶罐上舉 (Full Can)', targets: ['棘上肌'], tip: '外展 30 度。在肩胛平面上執行，孤立訓練棘上肌。', img: 'img/Fullcan.png' },
+            { cat: 'joint', name: '抗阻力外轉 (Resisted ER)', targets: ['棘下肌', '小圓肌'], tip: '強化後側轉袖，穩定肱骨頭並防止前移代償。', img: 'img/ResistedER.png' },
+            { cat: 'joint', name: '引體向上 (Pull-up)', targets: ['菱形肌', '肱二頭肌 (長頭)', '肱肌', '肱橈肌'], tip: '垂直拉動作。大量徵召上背與肘屈肌群。', img: 'img/Pullup.png' },
+            { cat: 'elbow-hand', name: '抗阻力旋前 (Pronation)', targets: ['旋前圓肌', '旋前方肌'], tip: '強化前臂旋前穩定度，對羽球或投擲運動至關重要。', img: 'img/Pronation.png' },
+            { cat: 'elbow-hand', name: '抗阻力旋後 (Supination)', targets: ['旋後肌'], tip: '訓練單純旋後力量，維持橈尺關節動態控制。', img: 'img/Supination.png' },
+            { cat: 'elbow-hand', name: '啞鈴屈腕 (Wrist Curl)', targets: ['橈側屈腕肌', '掌長肌', '尺側屈腕肌'], tip: '孤立訓練前臂屈肌群。對握力基礎非常重要。', img: 'img/WristCurl.png' },
+            { cat: 'elbow-hand', name: '啞鈴伸腕 (Wrist Ext.)', targets: ['尺側伸腕肌', '橈側伸腕長肌', '橈側伸腕短肌'], tip: '前臂伸肌強化，預防網球肘。', img: 'img/WristExt.png' },
+            { cat: 'elbow-hand', name: '握海綿球 (Grip Ball)', targets: ['屈指淺肌', '屈指深肌', '屈拇長肌'], tip: '抓握力訓練，強化指部屈肌。', img: 'IMG/GripBall.png' },
+            { cat: 'elbow-hand', name: '抗阻力伸直 (Finger Ext.)', targets: ['伸指肌', '伸食指肌', '伸小指肌', '伸拇長肌', '伸拇短肌'], tip: '抗阻力伸指動作。', img: 'img/FingerExt.png' },
+            { cat: 'elbow-hand', name: '抗阻力外展 (Thumb Abd.)', targets: ['外展拇長肌'], tip: '針對拇指外展肌群誘發。', img: 'img/ThumbAbd.png' }
         ];
 
         function switchView(v) {
@@ -290,19 +306,19 @@
             trainingData.forEach(t => {
                 const box = document.createElement('div');
                 box.className = "training-item-card p-5 bg-white shadow-sm flex items-center justify-between group";
-                box.innerHTML = `<div><span class="text-base font-black text-slate-800 group-hover:text-blue-600">${t.name}</span><div class="flex gap-3 mt-2">${t.targets.map(tar => `<span class="text-[10px] text-slate-400 font-bold">#${tar}</span>`).join('')}</div></div><span class="text-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity">➔</span>`;
+                box.innerHTML = `<div><span class="text-base font-black text-slate-800 group-hover:text-blue-600">${t.name}</span><div class="flex flex-wrap gap-2 mt-2">${t.targets.map(tar => `<span class="text-[9px] text-slate-400 font-bold">#${tar}</span>`).join('')}</div></div><span class="text-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity">➔</span>`;
                 box.onclick = () => selectTraining(t, box);
                 document.getElementById(`boxes-${t.cat}`).appendChild(box);
             });
 
-            const container = document.getElementById('table-render-container');
+            const tableCon = document.getElementById('table-render-container');
             Object.keys(database).forEach(key => {
                 const group = database[key];
                 const section = document.createElement('div');
                 section.className = "bg-white p-10 rounded-[3rem] shadow-lg border border-slate-200 overflow-hidden";
                 section.innerHTML = `<h2 class="text-2xl font-black text-slate-900 mb-6 flex items-center"><span class="mr-3 text-blue-600">${group.icon}</span> ${group.title}</h2>
                     <div class="overflow-x-auto"><table class="w-full text-xs text-left"><thead class="bg-slate-50 text-slate-500 font-bold border-b border-slate-200"><tr>
-                        <th class="px-5 py-4">肌肉名稱 (中/英)</th><th class="px-5 py-4">起訖位置</th><th class="px-5 py-4">神經支配</th><th class="px-5 py-4">動作與訓練</th><th class="px-5 py-4">拮抗</th>
+                        <th class="px-5 py-4">肌肉名稱</th><th class="px-5 py-4">起訖位置</th><th class="px-5 py-4">神經支配</th><th class="px-5 py-4">動作與訓練</th><th class="px-5 py-4">拮抗</th>
                     </tr></thead><tbody class="divide-y divide-slate-100">
                     ${group.muscles.map(m => `<tr class="hover:bg-slate-50">
                         <td class="px-5 py-6 font-black text-slate-900"><span class="clickable-muscle" onclick="openMuscleModal('${m.n}')">${m.n}</span><br><span class="text-[10px] font-normal italic text-slate-400">${m.en}</span></td>
@@ -312,7 +328,7 @@
                         <td class="px-5 py-6 font-bold text-red-500 text-[11px]">拮抗：${m.ant}</td>
                     </tr>`).join('')}
                     </tbody></table></div>`;
-                container.appendChild(section);
+                tableCon.appendChild(section);
             });
 
             nodes.forEach(n => {
@@ -331,6 +347,18 @@
             document.getElementById('training-detail-view').classList.remove('hidden');
             document.getElementById('training-view-title').innerText = t.name;
             document.getElementById('training-view-tip').innerText = t.tip;
+            
+            // Logic to handle actual image or placeholder
+            const diagContainer = document.getElementById('training-diagram');
+            if (t.img && (t.img.endsWith('.png') || t.img.endsWith('.jpg') || t.img.includes('http'))) {
+                // Set to aspect-video container and use object-contain to ensure whole image is seen at 16:9
+                diagContainer.innerHTML = `<img src="${t.img}" alt="${t.name}" class="w-full h-full object-contain bg-black/5" onerror="this.parentElement.innerHTML='<span class=\'text-3xl mb-2\'>🖼️</span><span class=\'text-sm font-bold italic\'>[圖片載入失敗: ${t.img}]</span>'">`;
+                diagContainer.classList.remove('border-dashed');
+            } else {
+                diagContainer.innerHTML = `<span class="text-3xl mb-2">🖼️</span><span class="text-sm font-bold italic tracking-wide">[示意圖佔位: ${t.img || '無描述'}]</span>`;
+                diagContainer.classList.add('border-dashed');
+            }
+
             document.getElementById('training-target-list').innerHTML = t.targets.map(tar => `<span onclick="openMuscleModal('${tar}')" class="text-blue-700 font-black cursor-pointer hover:underline mr-4 text-base">${tar}</span>`).join('');
         }
 
@@ -350,4 +378,3 @@
     </script>
 </body>
 </html>
-
