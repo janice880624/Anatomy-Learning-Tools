@@ -42,13 +42,12 @@
         <!-- VIEW: Interactive Nodes -->
         <div id="view-interactive" class="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-in fade-in duration-500">
             <div class="lg:col-span-4 space-y-4 max-h-[85vh] overflow-y-auto pr-2 scroll-custom">
-                <div class="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm">
+                <div class="bg-white p-6 rounded-[2rem] border border-slate-200 shadow-sm text-left">
                     <h3 class="text-xs font-black text-blue-600 mb-4 uppercase tracking-widest text-center">解剖地標 (Nodes)</h3>
-                    <div id="scapula-nodes" class="space-y-1.5"></div>
-                    <div class="h-4"></div>
-                    <div id="humerus-nodes" class="space-y-1.5"></div>
-                    <div class="h-4"></div>
-                    <div id="hand-nodes" class="space-y-1.5"></div>
+                    <div><span class="text-[10px] font-black text-slate-400 block mb-2 uppercase">肩胛與肱骨</span><div id="scapula-nodes" class="space-y-1.5 text-left mb-6"></div></div>
+                    <div><span class="text-[10px] font-black text-slate-400 block mb-2 uppercase">肘部與前臂</span><div id="humerus-nodes" class="space-y-1.5 text-left mb-6"></div></div>
+                    <div><span class="text-[10px] font-black text-slate-400 block mb-2 uppercase">手腕與指部</span><div id="hand-nodes" class="space-y-1.5 text-left mb-6"></div></div>
+                    <div><span class="text-[10px] font-black text-emerald-600 block mb-2 uppercase tracking-tighter">髖關節與骨盆帶</span><div id="hip-nodes" class="space-y-1.5 text-left"></div></div>
                 </div>
             </div>
             <div class="lg:col-span-8">
@@ -69,9 +68,9 @@
                                 <ul id="node-ori-list" class="space-y-4"></ul>
                             </div>
                         </div>
-                        <div class="mt-10 p-8 bg-slate-900 rounded-[2.5rem] text-white shadow-2xl flex items-start">
-                            <span class="text-2xl mr-4">🎓</span>
-                            <div><strong class="text-blue-400 block text-xs mb-1 uppercase tracking-widest">AT-Bot 專家分析</strong><span id="node-tip-text" class="text-sm leading-relaxed opacity-90 font-medium"></span></div>
+                        <div class="mt-10 p-8 bg-slate-800 rounded-[2.5rem] text-white shadow-2xl flex items-start">
+                            <span class="text-2xl mr-4">🤖</span>
+                            <div><strong class="text-blue-400 block text-xs mb-1 uppercase tracking-widest">Bot 補充說明</strong><span id="node-tip-text" class="text-sm leading-relaxed opacity-90 font-medium"></span></div>
                         </div>
                     </div>
                 </div>
@@ -79,42 +78,27 @@
         </div>
 
         <!-- VIEW: Training Master List -->
-        <div id="view-training" class="hidden-view grid grid-cols-1 lg:grid-cols-12 gap-8 animate-in fade-in duration-500">
-            <div class="lg:col-span-7 space-y-10 max-h-[80vh] overflow-y-auto pr-4 scroll-custom">
-                <section>
-                    <span class="training-category-header">肩帶與肩胛骨控制</span>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4" id="boxes-girdle"></div>
-                </section>
-                <section>
-                    <span class="training-category-header border-indigo-500 text-indigo-600">肩關節與轉袖穩定</span>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4" id="boxes-joint"></div>
-                </section>
-                <section>
-                    <span class="training-category-header border-orange-500 text-orange-600">肘、腕與前臂強化</span>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4" id="boxes-elbow-hand"></div>
-                </section>
+        <div id="view-training" class="hidden-view grid grid-cols-1 lg:grid-cols-12 gap-8 animate-in fade-in duration-500 text-left">
+            <div class="lg:col-span-7 space-y-10 max-h-[80vh] overflow-y-auto pr-4 scroll-custom text-left">
+                <section class="text-left"><span class="training-category-header border-blue-500 text-blue-600">肩帶控制</span><div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4" id="boxes-girdle"></div></section>
+                <section class="text-left"><span class="training-category-header border-indigo-500 text-indigo-600">肩部穩定</span><div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4" id="boxes-joint"></div></section>
+                <section class="text-left"><span class="training-category-header border-emerald-500 text-emerald-600">髖部與下肢動力鏈</span><div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4" id="boxes-hip"></div></section>
+                <section class="text-left"><span class="training-category-header border-orange-500 text-orange-600">肘、腕、指部強化</span><div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4" id="boxes-elbow-hand"></div></section>
             </div>
-            <div class="lg:col-span-5">
-                <div id="training-detail-panel" class="bg-white min-h-[600px] p-10 rounded-[3rem] shadow-2xl border border-slate-100 flex flex-col sticky top-4">
-                    <div id="training-empty-state" class="flex-grow flex flex-col items-center justify-center text-slate-300 text-center">
-                        <p class="text-xl font-black">點選左側動作查看對應肌肉</p>
-                    </div>
-                    <div id="training-detail-view" class="hidden animate-in slide-in-from-right-4">
-                        <!-- Image Container (Updated for actual image rendering) -->
-                        <div id="training-diagram" class="mb-8 overflow-hidden rounded-[2rem] bg-slate-50 border-2 border-dashed border-slate-200 h-64 flex flex-col items-center justify-center text-slate-400">
-                            <!-- JS will inject img or placeholder here -->
-                        </div>
-
-                        <h2 id="training-view-title" class="text-3xl font-black text-slate-900 tracking-tighter mb-6"></h2>
-                        
-                        <div class="space-y-8">
-                            <div class="bg-blue-50 p-8 rounded-[2rem] border border-blue-100">
-                                <h4 class="text-blue-700 font-black text-xs mb-4 uppercase tracking-widest">目標誘發肌肉</h4>
-                                <div id="training-target-list" class="flex flex-wrap gap-2"></div>
+            <div class="lg:col-span-5 text-left">
+                <div id="training-detail-panel" class="bg-white min-h-[600px] p-10 rounded-[3rem] shadow-2xl border border-slate-100 flex flex-col sticky top-4 text-left">
+                    <div id="training-empty-state" class="flex-grow flex flex-col items-center justify-center text-slate-300 text-center"><p class="text-xl font-black">點選左側動作查看對應肌肉</p></div>
+                    <div id="training-detail-view" class="hidden animate-in slide-in-from-right-4 text-left">
+                        <div id="training-diagram" class="mb-8 overflow-hidden rounded-[2rem] bg-slate-50 border-2 border-dashed border-slate-200 h-64 flex flex-col items-center justify-center text-slate-400 text-center"></div>
+                        <h2 id="training-view-title" class="text-5xl font-black text-slate-900 tracking-tighter mb-6 text-left"></h2>
+                        <div class="space-y-8 text-left">
+                            <div class="bg-blue-50 p-8 rounded-[2rem] border border-blue-100 text-left">
+                                <h4 class="text-blue-700 font-black text-xs mb-4 uppercase tracking-widest text-left">目標誘發肌肉 (點擊開啟小卡)</h4>
+                                <div id="training-target-list" class="flex flex-wrap gap-2 text-left"></div>
                             </div>
-                            <div class="p-8 bg-slate-900 rounded-[2.5rem] text-white shadow-2xl">
-                                <strong class="text-emerald-400 block text-xs mb-3 uppercase tracking-widest font-black">Sport 實務筆記</strong>
-                                <p id="training-view-tip" class="text-sm leading-relaxed opacity-90 font-medium italic"></p>
+                            <div class="p-8 bg-slate-900 rounded-[2.5rem] text-white shadow-2xl text-left">
+                                <strong class="text-emerald-400 block text-xs mb-3 uppercase tracking-widest font-black text-left">Sport 實務筆記</strong>
+                                <p id="training-view-tip" class="text-sm leading-relaxed opacity-90 font-medium italic text-left"></p>
                             </div>
                         </div>
                     </div>
@@ -227,24 +211,49 @@
                     { n: '伸拇短肌', en: 'Extensor Pollicis Brevis', o: '橈骨', i: '拇指近節', a: '伸拇 MCP', nv: '橈神經 (C7-C8)', tr: '伸拇誘發', ant: '屈拇長肌' },
                     { n: '外展拇長肌', en: 'Abductor Pollicis Longus', o: '橈尺骨', i: '1 掌骨', a: '外展拇指', nv: '橈神經 (C7-C8)', tr: '橈側穩定', ant: '內收拇肌' }
                 ]
-            }
+            },
+            hip_pelvis: {
+                title: "3. 髖與骨盆帶 (Hip & Pelvis)", icon: "🦵", color: "emerald",
+                muscles: [
+                    { n: '髂腰肌', en: 'Iliopsoas', o: 'T12-L5 椎體、髂窩', i: '股骨小轉子', a: '髖部屈曲', nv: '股神經 (L1-L3)', tr: '掛腿捲腹 / 髖屈訓練', ant: '臀大肌' },
+                    { n: '股直肌', en: 'Rectus Femoris', o: '髂前下棘 (AIIS)', i: '髕骨、脛骨粗隆', a: '髖屈、膝伸', nv: '股神經 (L2-L4)', tr: '坐姿踢腿 / 深蹲', ant: '膕繩肌' },
+                    { n: '縫匠肌', en: 'Sartorius', o: '髂前上棘 (ASIS)', i: '脛骨內側近端 (鵝足)', a: '髖屈、外展、外旋', nv: '股神經', tr: '側向跨步', ant: '內收大肌' },
+                    { n: '恥骨肌', en: 'Pectineus', o: '恥骨梳', i: '股骨恥骨肌線', a: '髖內收、屈曲', nv: '股神經 / 閉孔神經', tr: '抗阻內收', ant: '臀中肌' },
+                    { n: '內收短肌', en: 'Adductor Brevis', o: '恥骨下支', i: '股骨粗線', a: '髖內收', nv: '閉孔神經', tr: '內收機訓練', ant: '臀中肌' },
+                    { n: '內收長肌', en: 'Adductor Longus', o: '恥骨聯合', i: '股骨粗線中段', a: '髖內收', nv: '閉孔神經', tr: '內收機訓練', ant: '臀中肌' },
+                    { n: '內收大肌', en: 'Adductor Magnus', o: '恥骨、坐骨', i: '股骨粗線、內收肌結節', a: '強力內收、伸展 (後束)', nv: '閉孔 / 坐骨神經', tr: '寬距深蹲', ant: '臀中肌' },
+                    { n: '股薄肌', en: 'Gracilis', o: '恥骨聯合下方', i: '脛骨內側 (鵝足)', a: '髖內收、輔助膝屈', nv: '閉孔神經', tr: '內收機訓練', ant: '臀中肌' },
+                    { n: '半腱肌', en: 'Semitendinosus', o: '坐骨結節', i: '脛骨內側 (鵝足)', a: '髖伸、膝屈、內旋', nv: '坐骨神經 (L5-S2)', tr: '俯臥腿彎舉 / 硬舉', ant: '股四頭肌' },
+                    { n: '半膜肌', en: 'Semimembranosus', o: '坐骨結節', i: '脛骨內側髁後側', a: '髖伸、膝屈', nv: '坐骨神經', tr: '俯臥腿彎舉', ant: '股四頭肌' },
+                    { n: '股二頭肌', en: 'Biceps Femoris', o: '坐骨結節 (長)、股骨 (短)', i: '腓骨頭', a: '膝屈、髖伸 (長)', nv: '坐骨神經', tr: '羅馬尼亞硬舉', ant: '股四頭肌' },
+                    { n: '臀大肌', en: 'Gluteus Maximus', o: '髂骨、薦骨、尾骨', i: '股骨臀肌粗隆、ITB', a: '髖伸、外旋', nv: '下臀神經 (L5-S2)', tr: '深蹲 / 臀橋', ant: '髂腰肌' },
+                    { n: '臀中肌', en: 'Gluteus Medius', o: '髂骨翼外側', i: '股骨大轉子', a: '髖外展、穩定骨盆', nv: '上臀神經 (L4-S1)', tr: '怪獸走路 / 蚌殼式', ant: '內收肌群' },
+                    { n: '臀小肌', en: 'Gluteus Minimus', o: '髂骨翼下方', i: '股骨大轉子', a: '髖外展、內旋', nv: '上臀神經', tr: '蚌殼式', ant: '內收肌群' },
+                    { n: '括筋膜張肌', en: 'TFL', o: '髂前上棘 (ASIS)', i: '髂脛束 (ITB)', a: '髖屈、外展、內旋', nv: '上臀神經', tr: '側臥抬腿', ant: '內收肌群' }
+                ]
+            },
         };
 
         const nodes = [
-            { id: '1', g: 'scapula', name: '喙突 (Coracoid)', desc: '肩部重要樞紐', tip: '【輸入】胸小肌。此處壓痛常與圓肩姿勢相關。也是二頭肌短頭與喙肱肌的起點。', ins: ['胸小肌'], ori: ['肱二頭肌 (短頭)', '喙肱肌'] },
-            { id: '2', g: 'scapula', name: '肩胛內側緣 (Medial Border)', desc: '核心穩定', tip: '前側輸入：前鋸肌。後側輸入：菱形肌。翼狀肩胛評估的關鍵位置。', ins: ['前鋸肌', '菱形肌'], ori: [] },
-            { id: '3', g: 'scapula', name: '盂上/下結節', desc: '肩臼地標', tip: '盂上：二頭肌長頭。盂下：三頭肌長頭。臨床常用於評估關節唇。', ins: [], ori: ['肱二頭肌 (長頭)', '肱三頭肌 (長頭)'] },
-            { id: '4', g: 'scapula', name: '肩峰 (Acromion)', desc: '最高骨點', tip: '斜方肌中束終止於此，三角肌中束起點。肩夾擠好發區。', ins: ['斜方肌 (中束)'], ori: ['三角肌 (中束)'] },
-            { id: '5', g: 'humerus', name: '結節間溝 (Groove)', desc: '二王一后', tip: '外側唇(胸大)、底(闊背)、內側唇(大圓)。', ins: ['胸大肌 (上)', '胸大肌 (下)', '闊背肌', '大圓肌'], ori: [] },
-            { id: '6', g: 'humerus', name: '大結節 (GT)', desc: '後外側附著', tip: 'SITS 中的棘上、棘下、小圓肌終點。', ins: ['棘上肌', '棘下肌', '小圓肌'], ori: [] },
-            { id: '7', g: 'humerus', name: '小結節 (LT)', desc: '前側附著', tip: '只有肩胛下肌終止於此，負責內旋。', ins: ['肩胛下肌'], ori: [] },
-            { id: '16', g: 'humerus', name: '內上髁 (Medial Epi)', desc: '屈肌總源頭', tip: '高爾夫球肘發作點。包含所有前臂淺層屈肌與旋前圓肌。', ins: [], ori: ['旋前圓肌', '橈側屈腕肌', '掌長肌', '尺側屈腕肌', '屈指淺肌'] },
-            { id: '17', g: 'humerus', name: '外上髁 (Lateral Epi)', desc: '伸肌總源頭', tip: '網球肘發作點。包含伸腕、伸指肌群與旋後肌。', ins: [], ori: ['旋後肌', '肘肌', '橈側伸腕短肌', '伸指肌', '伸小指肌', '尺側伸腕肌'] },
-            { id: '10', g: 'hand', name: '橈骨粗隆 (Radial Tub)', desc: '動力點', tip: '二頭肌唯一終點。具強力旋後槓桿效應。', ins: ['肱二頭肌 (長/短)'], ori: [] },
-            { id: '11', g: 'hand', name: '尺骨粗隆/冠狀突', desc: '屈肘動力點', tip: '肱肌與旋前圓肌附著處。', ins: ['肱肌'], ori: ['旋前圓肌'] },
-            { id: '12', g: 'hand', name: '鷹嘴突 (Olecranon)', desc: '伸肘終點', tip: '三頭肌所有頭共同終止於此。', ins: ['肱三頭肌 (所有頭)'], ori: ['尺側屈腕肌 (部分)'] },
-            { id: '22', g: 'hand', name: '第 2,3 掌骨基部', desc: '橈側中心', tip: '橈側屈腕肌與伸腕肌匯集處。', ins: ['橈側屈腕肌'], ori: [] },
-            { id: '23', g: 'hand', name: '第 5 掌骨/豆狀骨', desc: '尺側中心', tip: '尺側屈腕肌與伸腕肌匯集處。', ins: ['尺側屈腕肌', '尺側伸腕肌'], ori: [] }
+            { id: '1', g: 'scapula', name: '喙突 (Coracoid)', desc: '肩部重要樞紐', tip: '【輸入】胸小肌。壓痛與圓肩姿勢相關。也是二頭肌短頭與喙肱肌起點。', ins: ['胸小肌'], ori: ['肱二頭肌 (短頭)', '喙肱肌'] },
+            { id: '2', g: 'scapula', name: '肩胛內側緣 (Medial Border)', desc: '核心穩定', tip: '前側輸入：前鋸肌。後側輸入：菱形肌。翼狀肩胛評估點。', ins: ['前鋸肌', '菱形肌'], ori: [] },
+            { id: '3', g: 'scapula', name: '盂上/下結節', desc: '肩臼地標', tip: '盂上：二頭肌長頭。盂下：三頭肌長頭。', ins: [], ori: ['肱二頭肌 (長頭)', '肱三頭肌 (長頭)'] },
+            { id: '4', g: 'scapula', name: '肩峰 (Acromion)', desc: '最高骨點', tip: '斜方肌中束終止於此，三角肌中束起點。', ins: ['斜方肌 (中束)'], ori: ['三角肌 (中束)'] },
+            { id: '5', g: 'humerus', name: '結節間溝 (Groove)', desc: '二王一后', tip: '外：胸大肌；底：闊背肌；內：大圓肌。', ins: ['胸大肌 (上)', '胸大肌 (下)', '闊背肌', '大圓肌'], ori: [] },
+            { id: '6', g: 'humerus', name: '大結節 (GT)', desc: '後外側附著', tip: '棘上肌、棘下肌、小圓肌終點。', ins: ['棘上肌', '棘下肌', '小圓肌'], ori: [] },
+            { id: '7', g: 'humerus', name: '小結節 (LT)', desc: '前側附著', tip: '只有肩胛下肌終止於此。', ins: ['肩胛下肌'], ori: [] },
+            { id: '16', g: 'humerus', name: '內上髁 (Medial Epi)', desc: '屈肌總源頭', tip: '高爾夫球肘發作點。包含旋前圓肌與屈腕肌群。', ins: [], ori: ['旋前圓肌', '橈側屈腕肌', '尺側屈腕肌'] },
+            { id: '17', g: 'humerus', name: '外上髁 (Lateral Epi)', desc: '伸肌總源頭', tip: '網球肘發作點。包含旋後肌與伸腕指肌群。', ins: [], ori: ['旋後肌'] },
+            { id: '10', g: 'hand', name: '橈骨粗隆 (Radial Tub)', desc: '旋後動力', tip: '二頭肌唯一終點。具強力旋後槓桿。', ins: ['肱二頭肌 (長頭)', '肱二頭肌 (短頭)'], ori: [] },
+            { id: '11', g: 'hand', name: '尺骨粗隆/冠狀突', desc: '屈肘動力', tip: '肱肌與旋前圓肌附著。', ins: ['肱肌'], ori: ['旋前圓肌'] },
+            { id: '12', g: 'hand', name: '鷹嘴突 (Olecranon)', desc: '伸肘終點', tip: '三頭肌終點。', ins: ['肱三頭肌 (所有頭)'], ori: ['尺側屈腕肌 (部分)'] },
+            { id: '22', g: 'hand', name: '第 2,3 掌骨基部', desc: '橈側中心', tip: '橈側屈/伸腕肌。', ins: ['橈側屈腕肌'], ori: [] },
+            { id: '23', g: 'hand', name: '第 5 掌骨/豆狀骨', desc: '尺側中心', tip: '尺側屈/伸腕肌。', ins: ['尺側屈腕肌'], ori: [] },
+            { id: '101', g: 'hip', name: '前上髂棘 (ASIS)', desc: '前方地標', tip: '輸出：縫匠肌、TFL。下肢長度量測基準。', ins: [], ori: ['縫匠肌', '括筋膜張肌'] },
+            { id: '102', g: 'hip', name: '坐骨結節', desc: '後方地標', tip: '輸出：所有膕繩肌與內收大肌。', ins: [], ori: ['半腱肌', '半膜肌', '股二頭肌', '內收大肌'] },
+            { id: '103', g: 'hip', name: '股骨大轉子', desc: '側向地標', tip: '輸入：臀中、臀小肌。', ins: ['臀中肌', '臀小肌'], ori: [] },
+            { id: '104', g: 'hip', name: '股骨小轉子', desc: '內側地標', tip: '輸入：髂腰肌。', ins: ['髂腰肌'], ori: [] },
+            { id: '105', g: 'hip', name: '鵝足 (Pes Anserinus)', desc: '脛骨內側', tip: '輸入：縫匠肌、股薄肌、半腱肌。', ins: ['縫匠肌', '股薄肌', '半腱肌'], ori: [] }
         ];
 
         const trainingData = [
@@ -265,7 +274,9 @@
             { cat: 'elbow-hand', name: '啞鈴伸腕 (Wrist Ext.)', targets: ['尺側伸腕肌', '橈側伸腕長肌', '橈側伸腕短肌'], tip: '前臂伸肌強化，預防網球肘。', img: 'img/WristExt.png' },
             { cat: 'elbow-hand', name: '握海綿球 (Grip Ball)', targets: ['屈指淺肌', '屈指深肌', '屈拇長肌'], tip: '抓握力訓練，強化指部屈肌。', img: 'IMG/GripBall.png' },
             { cat: 'elbow-hand', name: '抗阻力伸直 (Finger Ext.)', targets: ['伸指肌', '伸食指肌', '伸小指肌', '伸拇長肌', '伸拇短肌'], tip: '抗阻力伸指動作。', img: 'img/FingerExt.png' },
-            { cat: 'elbow-hand', name: '抗阻力外展 (Thumb Abd.)', targets: ['外展拇長肌'], tip: '針對拇指外展肌群誘發。', img: 'img/ThumbAbd.png' }
+            { cat: 'elbow-hand', name: '抗阻力外展 (Thumb Abd.)', targets: ['外展拇長肌'], tip: '針對拇指外展肌群誘發。', img: 'img/ThumbAbd.png' },
+            { cat: 'hip', name: '硬舉 (Deadlift)', targets: ['臀大肌', '半腱肌', '半膜肌', '股二頭肌'], tip: '後側鏈強化。', img: '示意圖: 硬舉' },
+            { cat: 'hip', name: '怪獸走路 (Monster Walk)', targets: ['臀中肌', '臀小肌', '括筋膜張肌'], tip: '側向穩定訓練。', img: '示意圖: 怪獸走路' }
         ];
 
         function switchView(v) {
@@ -307,7 +318,14 @@
                 const box = document.createElement('div');
                 box.className = "training-item-card p-5 bg-white shadow-sm flex items-center justify-between group";
                 box.innerHTML = `<div><span class="text-base font-black text-slate-800 group-hover:text-blue-600">${t.name}</span><div class="flex flex-wrap gap-2 mt-2">${t.targets.map(tar => `<span class="text-[9px] text-slate-400 font-bold">#${tar}</span>`).join('')}</div></div><span class="text-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity">➔</span>`;
-                box.onclick = () => selectTraining(t, box);
+                box.onclick = () => {
+                    document.getElementById('training-empty-state').classList.add('hidden');
+                    document.getElementById('training-detail-view').classList.remove('hidden');
+                    document.getElementById('training-view-title').innerText = t.name;
+                    document.getElementById('training-view-tip').innerText = t.tip;
+                    document.getElementById('training-diagram').innerHTML = `<span class="text-sm font-bold italic">[影像佔位: ${t.img}]</span>`;
+                    document.getElementById('training-target-list').innerHTML = t.targets.map(tar => `<span onclick="openMuscleModal('${tar}')" class="text-blue-700 font-black cursor-pointer hover:underline mr-4 text-base">${tar}</span>`).join('');
+                };
                 document.getElementById(`boxes-${t.cat}`).appendChild(box);
             });
 
