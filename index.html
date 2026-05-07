@@ -29,9 +29,7 @@
         <!-- Header -->
         <header class="mb-8 flex flex-col md:flex-row justify-between items-center gap-4 border-b-2 border-slate-200 pb-6 text-left">
             <div class="text-left">
-                <h1 class="text-3xl font-black text-slate-900 tracking-tight flex items-center">
-                    全解剖導航 <span class="ml-3 px-3 py-1 bg-blue-600 text-white text-base rounded-lg font-bold shadow-lg font-black">v8.3</span>
-                </h1>
+                <h1 class="text-3xl font-black text-slate-900 tracking-tight flex items-center">解剖導航</h1>
             </div>
             <nav class="flex bg-white p-1.5 rounded-2xl shadow-sm border border-slate-200 space-x-1">
                 <button id="btn-interactive" onclick="switchView('interactive')" class="px-6 py-2 rounded-xl text-sm transition-all text-slate-600 hover:bg-slate-100 font-bold">📍 節點導航</button>
@@ -177,7 +175,7 @@
     <script>
         const database = {
             girdle: {
-                title: "肩帶肌肉 (Shoulder Girdle)", icon: "🦴", color: "blue",
+                title: "肩帶肌肉 (Shoulder Girdle)", icon: "💪🏼", color: "blue",
                 muscles: [
                     { n: '斜方肌 (上束)', en: 'Upper Trapezius M.', o: '頭顱骨基部、枕骨粗隆、後項韌帶', i: '鎖骨外側 1/3', a: '上提、上轉、伸直和旋轉頭頸', nv: 'CN XI, C3-4', tr: '聳肩', ant: '下斜方、胸小肌', mImg: 'm_img/斜方肌 (上束).png' },
                     { n: '斜方肌 (中束)', en: 'Middle Trapezius M.', o: 'C7-T3 棘突', i: '肩峰突內側、肩胛棘上緣', a: '上提、上轉、內收', nv: 'CN XI, C3-4', tr: '俯臥划船', ant: '前鋸肌', mImg: 'm_img/斜方肌 (中束).png' },
@@ -190,7 +188,7 @@
                 ]
             },
             joint: {
-                title: "肩關節肌肉 (Shoulder Joint)", icon: "🏋️", color: "indigo",
+                title: "肩關節肌肉 (Shoulder Joint)", icon: "🤷", color: "indigo",
                 muscles: [
                     { n: '三角肌 (前束)', en: 'Anterior Deltoid M.', o: '鎖骨外側 1/3', i: '三角肌粗隆', a: '外展、屈曲、水平內收、內轉', nv: '腋神經 (C5-C6)', tr: '前平舉', ant: '後三角肌', mImg: 'm_img/三角肌 (前束).png' },
                     { n: '三角肌 (中束)', en: 'Middle Deltoid M.', o: '肩峰', i: '三角肌粗隆', a: '外展', nv: '腋神經 (C5-C6)', tr: '側平舉', ant: '胸大肌', mImg: 'm_img/三角肌 (中束).png' },
@@ -242,23 +240,33 @@
                 ]
             },
             hip_pelvis: {
-                title: "髖與骨盆帶 (Hip & Pelvis)", icon: "🦵", color: "emerald",
+                title: "髖與骨盆帶 (Hip & Pelvis)", icon: "🦵🏻", color: "emerald",
                 muscles: [
-                    { n: '髂腰肌', en: 'Iliopsoas', o: '髂肌 :  髂骨內側面 \n 腰大小肌 : L1-L5 橫突下緣 & T12-L5 椎體', i: '髂肌 & 腰大肌 : 股骨小轉子 \n 腰小肌 : 恥骨線 & 髂恥隆凸', a: '髖部屈曲、外轉；腰椎前屈、側屈', nv: '腰神經與股神經 (L2-L4)', tr: '掛腿捲腹 / 髖屈訓練', ant: '臀大肌', mImg: 'm_img/Iliopsoas.png' },
-                    { n: '股直肌', en: 'Rectus Femoris', o: '髂前下棘 (AIIS)', i: '髕骨、脛骨粗隆', a: '髖屈、膝伸', nv: '股神經 (L2-L4)', tr: '坐姿踢腿 / 深蹲', ant: '膕繩肌', mImg: 'm_img/xxx.png' },
-                    { n: '縫匠肌', en: 'Sartorius', o: '髂前上棘 (ASIS)', i: '脛骨內側近端 (鵝足)', a: '髖屈、外展、外旋', nv: '股神經', tr: '側向跨步', ant: '內收大肌' },
-                    { n: '恥骨肌', en: 'Pectineus', o: '恥骨梳', i: '股骨恥骨肌線', a: '髖內收、屈曲', nv: '股神經 / 閉孔神經', tr: '抗阻內收', ant: '臀中肌', mImg: 'm_img/xxx.png' },
-                    { n: '內收短肌', en: 'Adductor Brevis', o: '恥骨下支', i: '股骨粗線', a: '髖內收', nv: '閉孔神經', tr: '內收機訓練', ant: '臀中肌', mImg: 'm_img/xxx.png' },
-                    { n: '內收長肌', en: 'Adductor Longus', o: '恥骨聯合', i: '股骨粗線中段', a: '髖內收', nv: '閉孔神經', tr: '內收機訓練', ant: '臀中肌', mImg: 'm_img/xxx.png' },
-                    { n: '內收大肌', en: 'Adductor Magnus', o: '恥骨、坐骨', i: '股骨粗線、內收肌結節', a: '強力內收、伸展 (後束)', nv: '閉孔 / 坐骨神經', tr: '寬距深蹲', ant: '臀中肌', mImg: 'm_img/xxx.png' },
-                    { n: '股薄肌', en: 'Gracilis', o: '恥骨聯合下方', i: '脛骨內側 (鵝足)', a: '髖內收、輔助膝屈', nv: '閉孔神經', tr: '內收機訓練', ant: '臀中肌', mImg: 'm_img/xxx.png' },
-                    { n: '半腱肌', en: 'Semitendinosus', o: '坐骨結節', i: '脛骨內側 (鵝足)', a: '髖伸、膝屈、內旋', nv: '坐骨神經 (L5-S2)', tr: '俯臥腿彎舉 / 硬舉', ant: '股四頭肌', mImg: 'm_img/xxx.png' },
-                    { n: '半膜肌', en: 'Semimembranosus', o: '坐骨結節', i: '脛骨內側髁後側', a: '髖伸、膝屈', nv: '坐骨神經', tr: '俯臥腿彎舉', ant: '股四頭肌', mImg: 'm_img/xxx.png' },
-                    { n: '股二頭肌', en: 'Biceps Femoris', o: '坐骨結節 (長)、股骨 (短)', i: '腓骨頭', a: '膝屈、髖伸 (長)', nv: '坐骨神經', tr: '羅馬尼亞硬舉', ant: '股四頭肌', mImg: 'm_img/xxx.png'},
-                    { n: '臀大肌', en: 'Gluteus Maximus', o: '髂骨、薦骨、尾骨', i: '股骨臀肌粗隆、ITB', a: '髖伸、外旋', nv: '下臀神經 (L5-S2)', tr: '深蹲 / 臀橋', ant: '髂腰肌', mImg: 'ㄒ/xxx.png' },
-                    { n: '臀中肌', en: 'Gluteus Medius', o: '髂骨翼外側', i: '股骨大轉子', a: '髖外展、穩定骨盆', nv: '上臀神經 (L4-S1)', tr: '怪獸走路 / 蚌殼式', ant: '內收肌群', mImg: 'm_img/xxx.png' },
-                    { n: '臀小肌', en: 'Gluteus Minimus', o: '髂骨翼下方', i: '股骨大轉子', a: '髖外展、內旋', nv: '上臀神經', tr: '蚌殼式', ant: '內收肌群', mImg: 'm_img/xxx.png' },
+                    { n: '髂腰肌', en: 'Iliopsoas M.', o: '髂肌 :  髂骨內側面 \n 腰大小肌 : L1-L5 橫突下緣 & T12-L5 椎體', i: '髂肌 & 腰大肌 : 股骨小轉子 \n 腰小肌 : 恥骨線 & 髂恥隆凸', a: '髖屈曲、外轉；腰椎前屈、側屈', nv: '腰神經與股神經 (L2-L4)', tr: '掛腿捲腹 / 髖屈訓練', ant: '臀大肌', mImg: 'm_img/Iliopsoas.png' },
+                    { n: '股直肌', en: 'Rectus Femoris M.', o: '髂前下棘 (AIIS) & 髂臼上緣', i: '髕骨上緣、肌髕鍵連到脛骨粗隆', a: '髖屈、膝伸', nv: '股神經 (L2-L4)', tr: '坐姿踢腿 / 深蹲', ant: '膕繩肌', mImg: 'm_img/xxx.png' },
+                    { n: '縫匠肌', en: 'Sartorius M.', o: '髂前上棘 (ASIS)', i: '脛骨內側近端 (鵝足)', a: '髖屈、外展、外旋', nv: '股神經', tr: '側向跨步', ant: '內收大肌' },
+                    { n: '恥骨肌', en: 'Pectineus M.', o: '恥骨梳', i: '股骨恥骨肌線', a: '髖內收、屈曲', nv: '股神經 / 閉孔神經', tr: '抗阻內收', ant: '臀中肌', mImg: 'm_img/xxx.png' },
+                    { n: '內收短肌', en: 'Adductor Brevis M.', o: '恥骨下支', i: '股骨粗線', a: '髖內收', nv: '閉孔神經', tr: '內收機訓練', ant: '臀中肌', mImg: 'm_img/xxx.png' },
+                    { n: '內收長肌', en: 'Adductor Longus M.', o: '恥骨聯合', i: '股骨粗線中段', a: '髖內收', nv: '閉孔神經', tr: '內收機訓練', ant: '臀中肌', mImg: 'm_img/xxx.png' },
+                    { n: '內收大肌', en: 'Adductor Magnus M.', o: '恥骨、坐骨', i: '股骨粗線、內收肌結節', a: '強力內收、伸展 (後束)', nv: '閉孔 / 坐骨神經', tr: '寬距深蹲', ant: '臀中肌', mImg: 'm_img/xxx.png' },
+                    { n: '股薄肌', en: 'Gracilis M.', o: '恥骨聯合下方', i: '脛骨內側 (鵝足)', a: '髖內收、輔助膝屈', nv: '閉孔神經', tr: '內收機訓練', ant: '臀中肌', mImg: 'm_img/xxx.png' },
+                    { n: '半腱肌', en: 'Semitendinosus M.', o: '坐骨結節', i: '脛骨內側 (鵝足)', a: '髖伸、膝屈、內旋', nv: '坐骨神經 (L5-S2)', tr: '俯臥腿彎舉 / 硬舉', ant: '股四頭肌', mImg: 'm_img/xxx.png' },
+                    { n: '半膜肌', en: 'Semimembranosus M.', o: '坐骨結節', i: '脛骨內側髁後側', a: '髖伸、膝屈', nv: '坐骨神經', tr: '俯臥腿彎舉', ant: '股四頭肌', mImg: 'm_img/xxx.png' },
+                    { n: '股二頭肌', en: 'Biceps Femoris M.', o: '坐骨結節 (長)、股骨 (短)', i: '腓骨頭', a: '膝屈、髖伸 (長)', nv: '坐骨神經', tr: '羅馬尼亞硬舉', ant: '股四頭肌', mImg: 'm_img/xxx.png'},
+                    { n: '臀大肌', en: 'Gluteus Maximus M.', o: '髂骨、薦骨、尾骨', i: '股骨臀肌粗隆、ITB', a: '髖伸、外旋', nv: '下臀神經 (L5-S2)', tr: '深蹲 / 臀橋', ant: '髂腰肌', mImg: 'ㄒ/xxx.png' },
+                    { n: '臀中肌', en: 'Gluteus Medius M.', o: '髂骨翼外側', i: '股骨大轉子', a: '髖外展、穩定骨盆', nv: '上臀神經 (L4-S1)', tr: '怪獸走路 / 蚌殼式', ant: '內收肌群', mImg: 'm_img/xxx.png' },
+                    { n: '臀小肌', en: 'Gluteus Minimus M.', o: '髂骨翼下方', i: '股骨大轉子', a: '髖外展、內旋', nv: '上臀神經', tr: '蚌殼式', ant: '內收肌群', mImg: 'm_img/xxx.png' },
                     { n: '括筋膜張肌', en: 'TFL', o: '髂前上棘 (ASIS)', i: '髂脛束 (ITB)', a: '髖屈、外展、內旋', nv: '上臀神經', tr: '側臥抬腿', ant: '內收肌群', mImg: 'm_img/xxx.png' }
+                ]
+            },
+            knee: { 
+                title: "膝關節肌群 (Knee Joint)", icon: "🦵🏻", color: "indigo", 
+                muscles: [
+                    { n: '股直肌', en: 'Rectus Femoris M.', o: '髂前下棘 (AIIS) & 髖臼上緣', i: '髕骨上緣、形成髕腱附著於脛骨粗隆', a: '膝伸、髖屈、前傾骨盆', nv: '股神經 (L2-L4)', tr: '深蹲 / 坐姿踢腿', ant: '膕繩肌', mImg: 'm_img/股直肌.png' },
+                    { n: '股外側肌', en: 'Vastus Lateralis M.', o: '大轉子、股骨粗線外側', i: '髕骨、脛骨粗隆', a: '膝伸', nv: '股神經', tr: '坐姿踢腿', ant: '膕繩肌', mImg: 'm_img/股外側肌.png' },
+                    { n: '股中間肌', en: 'Vastus Intermedius M.', o: '股骨體前外側面', i: '髕骨、脛骨粗隆', a: '膝伸', nv: '股神經', tr: '坐姿踢腿', ant: '膕繩肌', mImg: 'm_img/股中間肌.png' },
+                    { n: '股內側肌', en: 'Vastus Medialis M.', o: '股骨粗線內側', i: '髕骨、脛骨粗隆', a: '膝伸', nv: '股神經', tr: '坐姿踢腿 (末端鎖定)', ant: '膕繩肌', mImg: 'm_img/股內側肌.png' },
+                    { n: '膕肌', en: 'Popliteus M.', o: '股骨外側髁外側面', i: '脛骨後側近端 (膕線上方)', a: '解鎖膝關節 (脛內旋 / 股外旋)', nv: '脛神經 (L4-S1)', tr: '抗阻力內旋', ant: '無', mImg: 'm_img/膕肌.png' }
                 ]
             },
         };
