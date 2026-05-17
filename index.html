@@ -269,6 +269,23 @@
                     { n: '膕肌', en: 'Popliteus M.', o: '股骨外側髁外側面', i: '脛骨後側近端 (膕線上方)', a: '解鎖膝關節 (脛內旋 / 股外旋)', nv: '脛神經 (L4-S1)', tr: '抗阻力內旋', ant: '無', mImg: 'm_img/膕肌.png' }
                 ]
             },
+            ankle: { 
+                title: "腳踝與足部肌群 (Ankle & Foot)", icon: "🦶", color: "orange", 
+                muscles: [
+                    { n: '腓腸肌', en: 'Gastrocnemius', o: '股骨內、外側髁後側', i: '跟骨結節 (經阿基里斯腱)', a: '足蹠屈、膝屈', nv: '脛神經 (S1-S2)', tr: '站姿提踵', ant: '脛前肌', mImg: 'm_img/腓腸肌.png' },
+                    { n: '比目魚肌', en: 'Soleus', o: '脛骨、腓骨上段後表面', i: '跟骨結節 (經阿基里斯腱)', a: '足蹠屈', nv: '脛神經 (S1-S2)', tr: '坐姿提踵', ant: '脛前肌', mImg: 'm_img/比目魚肌.png' },
+                    { n: '腓骨長肌', en: 'Fibularis Longus', o: '腓骨頭及腓骨上 2/3 外側面', i: '第一內側楔骨、第一蹠骨基部', a: '足外翻、足蹠屈', nv: '腓淺神經 (L5-S1)', tr: '阻力帶外翻', ant: '脛後肌', mImg: 'm_img/腓骨長肌.png' },
+                    { n: '腓骨短肌', en: 'Fibularis Brevis', o: '腓骨下 2/3 外側面', i: '第五蹠骨粗隆', a: '足外翻、足蹠屈', nv: '腓淺神經 (L5-S1)', tr: '阻力帶外翻', ant: '脛後肌', mImg: 'm_img/腓骨短肌.png' },
+                    { n: '第三腓骨肌', en: 'Fibularis Tertius', o: '腓骨前遠端 1/3 內側面、骨間膜', i: '第五蹠骨基部背面', a: '足外翻、足背屈', nv: '腓深神經 (L5-S1)', tr: '阻力帶背屈', ant: '脛後肌', mImg: 'm_img/第三腓骨肌.png' },
+                    { n: '伸趾長肌', en: 'Extensor Digitorum Longus', o: '脛骨外側髁、腓骨前內側', i: '第 2-5 指中、遠節趾骨背面', a: '伸展 2-5 趾、足背屈、足外翻', nv: '腓深神經 (L5-S1)', tr: '阻力帶背屈', ant: '屈趾長肌', mImg: 'm_img/伸趾長肌.png' },
+                    { n: '伸𧿹長肌', en: 'Extensor Hallucis Longus', o: '腓骨前中段內側、骨間膜', i: '大腳趾遠節趾骨背面', a: '伸展大腳趾、足背屈、足內翻', nv: '腓深神經 (L5-S1)', tr: '阻力帶背屈', ant: '屈𧿹長肌', mImg: 'm_img/伸𧿹長肌.png' },
+                    { n: '脛前肌', en: 'Tibialis Anterior', o: '脛骨外側髁、外側面上 2/3、骨間膜', i: '第一內側楔骨、第一蹠骨基部內側', a: '足背屈、足內翻', nv: '腓深神經 (L4-L5)', tr: '阻力帶背屈', ant: '腓腸肌 / 比目魚肌', mImg: 'm_img/脛前肌.png' },
+                    { n: '脛後肌', en: 'Tibialis Posterior', o: '脛骨、腓骨後表面及骨間膜', i: '舟狀骨粗隆、三個楔骨、第 2-4 蹠骨基部', a: '足內翻、足蹠屈、維持足弓', nv: '脛神經 (L4-L5)', tr: '縮足運動', ant: '腓骨長肌', mImg: 'm_img/脛後肌.png' },
+                    { n: '屈趾長肌', en: 'Flexor Digitorum Longus', o: '脛骨後表面中段', i: '第 2-5 趾遠節趾骨底', a: '屈曲 2-5 趾、足蹠屈、足內翻', nv: '脛神經 (L5-S2)', tr: '腳趾抓毛巾', ant: '伸趾長肌', mImg: 'm_img/屈趾長肌.png' },
+                    { n: '屈𧿹長肌', en: 'Flexor Hallucis Longus', o: '腓骨後表面下 2/3、骨間膜', i: '大腳趾遠節趾骨底', a: '屈曲大腳趾、足蹠屈、足內翻', nv: '脛神經 (L5-S2)', tr: '腳趾抓毛巾', ant: '伸𧿹長肌', mImg: 'm_img/屈𧿹長肌.png' }
+                ]      
+            },
+
         };
 
         const bonesData = {
@@ -298,11 +315,21 @@
             { id: '12', g: 'hand', name: '鷹嘴突 (Olecranon)', desc: '伸肘終點', tip: '三頭肌終點。', ins: ['肱三頭肌 (所有頭)'], ori: ['尺側屈腕肌 (部分)'] },
             { id: '22', g: 'hand', name: '第 2,3 掌骨基部', desc: '橈側中心', tip: '橈側屈/伸腕肌。', ins: ['橈側屈腕肌'], ori: [] },
             { id: '23', g: 'hand', name: '第 5 掌骨/豆狀骨', desc: '尺側中心', tip: '尺側屈/伸腕肌。', ins: ['尺側屈腕肌'], ori: [] },
+            // LOWER NODES
             { id: '101', g: 'hip', name: '前上髂棘 (ASIS)', desc: '前方地標', tip: '輸出：縫匠肌、TFL。下肢長度量測基準。', ins: [], ori: ['縫匠肌', '括筋膜張肌'] },
             { id: '102', g: 'hip', name: '坐骨結節', desc: '後方地標', tip: '輸出：所有膕繩肌與內收大肌。', ins: [], ori: ['半腱肌', '半膜肌', '股二頭肌', '內收大肌'] },
-            { id: '103', g: 'hip', name: '股骨大轉子', desc: '側向地標', tip: '輸入：臀中、臀小肌。', ins: ['臀中肌', '臀小肌'], ori: [] },
+            { id: '103', g: 'hip', name: '股骨大轉子', desc: '側向地標', tip: '輸入：臀中、臀小肌、股外側肌。', ins: ['臀中肌', '臀小肌', '股外側肌'], ori: [] },
             { id: '104', g: 'hip', name: '股骨小轉子', desc: '內側地標', tip: '輸入：髂腰肌。', ins: ['髂腰肌'], ori: [] },
-            { id: '105', g: 'hip', name: '鵝足 (Pes Anserinus)', desc: '脛骨內側', tip: '輸入：縫匠肌、股薄肌、半腱肌。', ins: ['縫匠肌', '股薄肌', '半腱肌'], ori: [] }
+            { id: '105', g: 'hip', name: '鵝足 (Pes Anserinus)', desc: '脛骨內側', tip: '輸入：縫匠肌、股薄肌、半腱肌。', ins: ['縫匠肌', '股薄肌', '半腱肌'], ori: [] },
+            { id: '106', g: 'hip', name: '脛骨粗隆 (Tuberosity)', desc: '膝伸動力點', tip: '【輸入】股四頭肌群共同終點。髕骨韌帶附著處。', ins: ['股直肌', '股外側肌', '股中間肌', '股內側肌'], ori: [] },
+            { id: '107', g: 'hip', name: '股骨外側髁', desc: '解鎖關鍵', tip: '【輸出】膕肌。負責膝關節活動初期的解鎖。', ins: [], ori: ['膕肌'] },
+            // ANKLE & FOOT NODES
+            { id: '201', g: 'ankle', name: '跟骨結節 (Calcaneal Tuberosity)', desc: '後側承重與跟腱點', tip: '【輸入】腓腸肌、比目魚肌。跟腱炎及足底筋膜炎重要觸診與拉應力焦點。', ins: ['腓腸肌', '比目魚肌'], ori: [] },
+            { id: '202', g: 'ankle', name: '外踝後方 (Behind Lat. Malleolus)', desc: '外翻肌腱滑車', tip: '【通道】腓骨長肌、腓骨短肌肌腱經過處。外踝扭傷常伴隨此處痛感或腱滑囊炎。', ins: [], ori: ['腓骨長肌', '腓骨短肌'] },
+            { id: '203', g: 'ankle', name: '內踝後方 (Behind Med. Malleolus)', desc: '跗骨隧道 (Tarsal Tunnel)', tip: '【通道】脛後肌、屈趾長肌、屈𧿹長肌經此入足底（跗骨隧道症候群壓迫點）。', ins: [], ori: ['脛後肌', '屈趾長肌', '屈𧿹長肌'] },
+            { id: '204', g: 'ankle', name: '第五蹠骨粗隆 (5th Metatarsal)', desc: '外側足弓基部', tip: '【輸入】腓骨短肌、第三腓骨肌。瓊斯骨折 (Jones Fracture) 與外翻扭傷撕脫骨折點。', ins: ['腓骨短肌', '第三腓骨肌'], ori: [] },
+            { id: '205', g: 'ankle', name: '第一內側楔骨與第一蹠骨基部', desc: '內側足弓支柱', tip: '【輸入】脛前肌與腓骨長肌。兩者交叉拉力形成「絞盤機制」動態支撐足弓。', ins: ['脛前肌', '腓骨長肌'], ori: [] },
+            { id: '206', g: 'ankle', name: '舟狀骨粗隆 (Navicular Tuberosity)', desc: '內側足弓頂點', tip: '【輸入】脛後肌主要終點。此點下陷是功能性扁平足評估的核心。', ins: ['脛後肌'], ori: [] }
         ];
 
         const trainingData = [
@@ -325,7 +352,13 @@
             { cat: 'elbow-hand', name: '抗阻力伸直 (Finger Ext.)', targets: ['伸指肌', '伸食指肌', '伸小指肌', '伸拇長肌', '伸拇短肌'], tip: '抗阻力伸指動作。', img: 'img/FingerExt.png' },
             { cat: 'elbow-hand', name: '抗阻力外展 (Thumb Abd.)', targets: ['外展拇長肌'], tip: '針對拇指外展肌群誘發。', img: 'img/ThumbAbd.png' },
             { cat: 'hip', name: '硬舉 (Deadlift)', targets: ['臀大肌', '半腱肌', '半膜肌', '股二頭肌'], tip: '後側鏈強化。', img: '示意圖: 硬舉' },
-            { cat: 'hip', name: '怪獸走路 (Monster Walk)', targets: ['臀中肌', '臀小肌', '括筋膜張肌'], tip: '側向穩定訓練。', img: '示意圖: 怪獸走路' }
+            { cat: 'hip', name: '怪獸走路 (Monster Walk)', targets: ['臀中肌', '臀小肌', '括筋膜張肌'], tip: '側向穩定訓練。', img: '示意圖: 怪獸走路' },
+            // ANKLE TRAINING ACTIONS
+            { cat: 'ankle', name: '站姿提踵 (Calf Raise)', targets: ['腓腸肌', '比目魚肌'], tip: '膝伸直狀態下更針對腓腸肌；此為離心足踝復健的黃金動作。', img: '示意圖: 站姿提踵' },
+            { cat: 'ankle', name: '阻力帶外翻 (Resisted Eversion)', targets: ['腓骨長肌', '腓骨短肌', '第三腓骨肌'], tip: '強化外翻肌群，適合外踝反覆扭傷（慢性踝關節不穩定）的動態韌帶代償復健。', img: '示意圖: 阻力帶外翻' },
+            { cat: 'ankle', name: '縮足運動 (Short Foot Exercise)', targets: ['脛後肌', '屈𧿹長肌'], tip: '縮短足長以重建內側縱弓，適合功能性扁平足糾正。', img: '示意圖: 縮足運動' },
+            { cat: 'ankle', name: '腳趾抓毛巾 (Towel Curls)', targets: ['屈趾長肌', '屈𧿹長肌'], tip: '強化足底內在肌群與深層長屈肌，改善足底受力分佈。', img: '示意圖: 腳趾抓毛巾' },
+            { cat: 'ankle', name: '阻力帶背屈 (Resisted Dorsiflexion)', targets: ['脛前肌', '伸趾長肌', '伸𧿹長肌'], tip: '強化脛前肌群，預防脛前疼痛（Shin Splints）與垂足。', img: '示意圖: 阻力帶背屈' }
         ];
 
         function switchView(v) {
